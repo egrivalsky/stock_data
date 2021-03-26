@@ -1,3 +1,11 @@
+from selenium import webdriver
+import datetime, re, requests, io, time, random, string
+from bs4 import BeautifulSoup
+from credentials import email, password
+from pymongo import MongoClient
+
+client = MongoClient('localhost', 27017)
+
 class StockData:
       def __init__(self):
      '''Initialize an instance of StockData'''
@@ -8,10 +16,21 @@ class StockData:
       'homepage': 'https://wallmine.com/',
       'view_stock': lambda exchange, symbol: f'https://wallmine.com/{exchange}/{symbol}'
      }
-     self.driver = webdriver.Chrome('/Users/romebell/downloads/chromedriver-4') # use your path to your Chromedriver
+     self.driver = webdriver.Chrome(r"C:\Users\Erik\Downloads\chromedriver.exe") # use your path to your Chromedriver
   
-  def login(self):
+def login():
     '''Method used to login into Wallmine account'''
+    self.driver.get(urls['sign_in'])
+    time.sleep(3)
+    self.driver.find_element_by_xpath('//*[@id="new_user"]/div[5]/div[1]/div[2]/a').click()
+    time.sleep(0.5)
+    self.driver.find_element_by_xpath('//*[@id="user_email"]').send_keys(email)
+    self.driver.find_element_by_xpath('//*[@id="user_password"]').send_keys(password)
+    time.sleep(0.1)
+    self.driver.find_element_by_xpath('//*[@id="new_user"]/div[5]/div[2]/div[1]/button').click()
+    time.sleep(3)
+    if self.driver.find_element_by_xpath('/html/body/main/section/div[2]/div/div[1]/h1/span'):
+        print('Login was successful')
   
     
   def retrieve_data(self):
